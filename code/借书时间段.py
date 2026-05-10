@@ -66,7 +66,7 @@ print("拟合参数:", params)
 
 
 #rendering
-plt.rcParams['font.sans-serif'] = ['Heiti TC']
+plt.rcParams['font.sans-serif'] = ['Arial']
 plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 
 bar_color1='#3673AA'
@@ -74,21 +74,25 @@ bar_color2='#4AA6B6'
 curve_color='#FF8811'
 center_line_color='#F4D035'
 width_color='#F4D06F'
-fig,(ax1,ax2)= plt.subplots(2, 1, figsize=(8, 10))
+fig,ax1 = plt.subplots(1, 1, figsize=(8, 5))
 
 
-ax2.bar(hourly_avg["小时"],hourly_avg["平均借阅量"],color=bar_color1, alpha=0.5)
+
 #bar graph
-ax1.bar(daily_sum["借阅时间段"], daily_separate["外借"], color=bar_color1, alpha=0.9,label="外借量")
-ax1.bar(daily_sum["借阅时间段"],daily_separate["续借"],bottom=daily_separate["外借"], color=bar_color2, alpha=0.9,label="续借量")
+ax1.bar(daily_sum["借阅时间段"], daily_separate["外借"], color=bar_color1, alpha=0.9,label="Borrowings")
+ax1.bar(daily_sum["借阅时间段"],daily_separate["续借"],bottom=daily_separate["外借"], color=bar_color2, alpha=0.9,label="Renewals")
 #curve graph
 x_smooth = np.linspace(0, 23, 200)
 y_smooth = double_gaussian(x_smooth, *params)
-ax1.plot(x_smooth, y_smooth, color=curve_color, linewidth=2, label='curve fit')
+ax1.plot(x_smooth, y_smooth, color=curve_color, linewidth=2, label='Bimodal Curve')
 #set title/label/grid
-ax1.set_title("每时间段借阅量统计", fontsize=14, fontweight="bold")
-ax1.set_ylabel("借阅量")
-ax1.set_xlabel("小时")
+ax1.set_title("Hourly Borrowings/Renewals Statistics", fontsize=14, fontweight="bold")
+ax1.set_ylabel("Total Borrowings/Renewals")
+ax1.set_xlabel("Hours")
+rax1=ax1.twinx()
+rax1.set_ylabel("Average Daily Borrowings/Renewals")
+rax1.set_ylim(0, 2.0)
+rax1.set_yticks([0,0.5,1.0,1.5,2.0])
 ax1.grid(alpha=0.3)
 #draw center line(μ)
 ax1.axvline(mu1, color=center_line_color, linestyle='-',linewidth=2)
