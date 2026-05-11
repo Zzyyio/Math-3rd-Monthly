@@ -23,6 +23,9 @@ df=df[df['pages'] > 50]
 df['pages_range'] = pd.cut(df['pages'], bins=bins, labels=labels, right=False)
 counts = df['pages_range'].value_counts().sort_index()
 
+
+counts_separate = df.groupby(["pages_range", "Circulation Type"]).size().unstack(fill_value=0).reset_index()
+print(counts_separate)
 print(counts)
 pages_mean=0
 indexer=0
@@ -53,7 +56,8 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 fig, ax = plt.subplots(1, 1, figsize=(8, 5))
 
 
-ax.bar(bins_mid, counts.values, width=25,color='#4285F4', alpha=0.8)
+ax.bar(bins_mid, counts_separate["外借"], width=25,color='#4285F4', alpha=0.8,label="外借量")
+ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],width=25,color='yellow', alpha=0.8,label="续借量")
 ax.set_xlabel('页数区间')
 
 ax.xaxis.set_major_locator(MaxNLocator(10))
