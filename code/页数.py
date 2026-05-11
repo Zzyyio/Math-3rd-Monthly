@@ -59,8 +59,8 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 fig, ((ax,g10),(g11,g12)) = plt.subplots(2, 2, figsize=(14, 8))
 
 
-ax.bar(bins_mid, counts_separate["外借"], width=25,color="#FFDC5E", alpha=1,label="外借量")
-ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],color="#FF69EB",width=25, alpha=1,label="续借量")
+ax.bar(bins_mid, counts_separate["外借"], width=25,color="#FFDC5E", alpha=1,label="Borrowings")
+ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],color="#FF69EB",width=25, alpha=1,label="Renewals")
 ax.set_xlabel('Page Intervals')
 
 ax.xaxis.set_major_locator(MaxNLocator(21))
@@ -70,7 +70,7 @@ ax.set_title('Borrowings/Renewals of different pages')
 
 
 ax.plot(x_smooth, y_smooth, color='#002642', linestyle='-', label='norm curve')
-ax.axvline(x=mu, color='#16425B', linestyle='--',label=f'μ:{mu:.1f}')
+ax.axvline(x=mu, color='#16425B', linestyle='--',label=f'μ:{mu:.1f}(Pages)')
 width_color="#16425B"
 ax.hlines(y=A*0.5, xmin=mu - sigma, xmax=mu + sigma, color=width_color, linestyle='-', linewidth=2, label=f'σ:{sigma:.1f}')
 ax.vlines([mu - sigma, mu + sigma], A*0.5 - 5/2, A*0.5 + 5/2, color=width_color, linewidth=2)
