@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MaxNLocator
+from matplotlib.ticker import MaxNLocator, FixedLocator
 from scipy.ndimage import gaussian_filter1d
 from scipy.optimize import curve_fit
 
@@ -17,23 +17,35 @@ date_col = "Circulation Time"
 df["借阅时间段"] = pd.to_datetime(df[date_col]).dt.hour
 df = df[df["Circulation Type"].isin(["外借","续借"])]
 
-# df["日期"] = pd.to_datetime(df[date_col]).dt.date
-# df["小时"] = pd.to_datetime(df[date_col]).dt.hour
-# # 2️⃣ 创建完整的日期-小时组合
-# all_dates = df["日期"].unique()
-# all_hours = np.arange(24)
-# all_combinations = pd.MultiIndex.from_product([all_dates, all_hours], names=["日期", "小时"])
-#
-# # 3️⃣ 按日期和小时统计借阅量
-# daily_hourly = df.groupby(["日期", "小时"]).size().reindex(all_combinations, fill_value=0).reset_index(name="借阅量")
-#
-# # 4️⃣ 按小时计算每日平均
-# hourly_avg = daily_hourly.groupby("小时")["借阅量"].mean().reset_index(name="平均借阅量")
-#
 
 daily_sum = df.groupby("借阅时间段").size().reset_index(name="借阅量")
 
 daily_separate = df.groupby(["借阅时间段", "Circulation Type"]).size().unstack(fill_value=0).reset_index()
+
+IB24G10=df[df["Grade"]=="IB24G10"]
+IB23G11=df[df["Grade"]=="IB23G11"]
+IB22G12=df[df["Grade"]=="IB22G12"]
+IB24G10_processed = IB24G10.groupby(["借阅时间段","Circulation Type"]).size().unstack(fill_value=0).reset_index()
+IB23G11_processed = IB23G11.groupby(["借阅时间段","Circulation Type"]).size().unstack(fill_value=0).reset_index()
+IB22G12_processed = IB22G12.groupby(["借阅时间段","Circulation Type"]).size().unstack(fill_value=0).reset_index()
+
+def fill_missing_hours(df_processed):
+    hours = pd.DataFrame({"借阅时间段": np.arange(0,24)})
+    df_filled = pd.merge(hours, df_processed, on="借阅时间段", how="left")
+    # 没有的类型填 0
+    for col in ["外借", "续借"]:
+        if col in df_filled.columns:
+            df_filled[col] = df_filled[col].fillna(0)
+        else:
+            df_filled[col] = 0
+    return df_filled
+
+IB24G10_processed = fill_missing_hours(IB24G10_processed)
+IB23G11_processed = fill_missing_hours(IB23G11_processed)
+IB22G12_processed = fill_missing_hours(IB22G12_processed)
+
+print(IB24G10_processed, IB23G11_processed, IB22G12_processed)
+print(daily_separate)
 # print(daily_separate)
 # print(daily_sum)
 
@@ -74,9 +86,13 @@ bar_color2='#4AA6B6'
 curve_color='#FF8811'
 center_line_color='#F4D035'
 width_color='#F4D06F'
-fig,ax1 = plt.subplots(1, 1, figsize=(8, 5))
+fig,((ax1 ,g10),(g11,g12))= plt.subplots(2, 2, figsize=(15, 8))
 
-
+def set_twin_label(ax):
+    axx = ax.twinx()
+    axx.set_ylabel("Average Daily Borrowings/Renewals")
+    axx.set_ylim(0, 2.0)
+    axx.set_yticks([0, 0.5, 1.0, 1.5, 2.0])
 
 #bar graph
 ax1.bar(daily_sum["借阅时间段"], daily_separate["外借"], color=bar_color1, alpha=0.9,label="Borrowings")
@@ -110,7 +126,34 @@ ax1.vlines([mu2 - sigma2, mu2 + sigma2], y2line - cap_height/2, y2line + cap_hei
 
 ax1.xaxis.set_major_locator(MaxNLocator(nbins=10, integer=True))
 
+g10.bar(IB24G10_processed["借阅时间段"],IB24G10_processed["外借"],label="Borrowings")
+g10.bar(IB24G10_processed["借阅时间段"],IB24G10_processed["续借"],bottom=IB24G10_processed["外借"],label="Renewals")
+g11.bar(IB23G11_processed["借阅时间段"],IB23G11_processed["外借"],label="Borrowings")
+g11.bar(IB23G11_processed["借阅时间段"],IB23G11_processed["续借"],bottom=IB23G11_processed["外借"],label="Renewals")
+g12.bar(IB22G12_processed["借阅时间段"],IB22G12_processed["外借"],label="Borrowings")
+g12.bar(IB22G12_processed["借阅时间段"],IB22G12_processed["续借"],bottom=IB22G12_processed["外借"],label="Renewals")
+
+g10.xaxis.set_major_locator(FixedLocator([0,3,6,9,12,15,18,21,24]))
+g11.xaxis.set_major_locator(FixedLocator([0,3,6,9,12,15,18,21,24]))
+g12.xaxis.set_major_locator(FixedLocator([0,3,6,9,12,15,18,21,24]))
+
+
+set_twin_label(g10)
+set_twin_label(g11)
+set_twin_label(g12)
+
+g10.set_title("G10", fontsize=14, fontweight="bold")
+g11.set_title("G11", fontsize=14, fontweight="bold")
+g12.set_title("G12", fontsize=14, fontweight="bold")
+
+g11.set_ylim(0, 350)
+g12.set_ylim(0, 350)
+g10.set_ylim(0, 350)
+
 ax1.legend()
+g10.legend()
+g11.legend()
+g12.legend()
 plt.tight_layout()
 plt.savefig('../rendering/每时间段的借阅量.png')
 plt.show()

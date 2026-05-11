@@ -106,7 +106,7 @@ borrow_sum.set_xticklabels(tick_labels, rotation=45)
 
 
 
-borrow_sum.plot(np.interp(x_fit, x_data, x_pos), y_fit, color='orange', label='Gamma-like fit')
+# borrow_sum.plot(np.interp(x_fit, x_data, x_pos), y_fit, color='orange', label='Gamma-like fit')
 
 
 borrow_sum.legend()
