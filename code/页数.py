@@ -59,8 +59,8 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 fig, ((ax,g10),(g11,g12)) = plt.subplots(2, 2, figsize=(14, 8))
 
 
-ax.bar(bins_mid, counts_separate["外借"], width=35,color=color.bar_color1, alpha=0.8,label="Borrowings")
-ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],color=color.bar_color2,width=35, alpha=1,label="Renewals")
+ax.bar(bins_mid, counts_separate["外借"], width=35,color=color.bar_color1, alpha=color.alpha,label="Borrowings")
+ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],color=color.bar_color2,width=35, alpha=color.alpha,label="Renewals")
 ax.set_xlabel('Page Intervals')
 
 ax.xaxis.set_major_locator(MaxNLocator(21))
@@ -76,7 +76,7 @@ width_color=vh_color
 ax.hlines(y=A*0.5, xmin=mu - sigma, xmax=mu + sigma, color=width_color, linestyle='--', linewidth=1, label=f'σ:{sigma:.1f}')
 ax.vlines([mu - sigma, mu + sigma], A*0.5 - 5/2, A*0.5 + 5/2, color=width_color, linewidth=2)
 
-cal_for_three_class.page_show(g10,g11,g12,G10_processed,G11_processed,G12_processed,bins_mid,"外借",35)
+cal_for_three_class.page_show(g10,g11,g12,G10_processed,G11_processed,G12_processed,bins_mid,"外借",35,alpha=color.alpha)
 ax.legend()
 plt.tight_layout()
 
