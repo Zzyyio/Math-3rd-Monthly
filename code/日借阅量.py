@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.ticker import FixedLocator
-
+import color
 # ===================== 1. 读取数据 =====================
 # 请改成你自己的 Excel 文件名
 df = pd.read_excel("/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/dataset/all.xlsx"
@@ -49,13 +49,13 @@ top10 = daily.nlargest(10, "借阅量").sort_values("借阅量", ascending=True)
 plt.rcParams['font.sans-serif'] = ['Heiti TC']  # macOS 系统自带
 plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 
-fig, ((ax1,g10),(ax2,g11),(ax3,g12)) = plt.subplots(3, 2, figsize=(12, 8))
+fig,(ax1,ax2) = plt.subplots(2, 1, figsize=(10, 8))
 
 # 上半图：每日借阅量趋势
-ax1.bar(daily["借阅日期"], daily["外借"], color="#4285F4", alpha=0.8,label="Borrowings")
-ax1.bar(daily["借阅日期"],daily["续借"],bottom=daily["外借"],color="#428500", alpha=0.8,label="Renewals")
-ax1.axhline(y=daily["借阅量"].mean(), color="red", linestyle="--", label=f"Average：{daily['借阅量'].mean():.1f}")
-ax1.set_title("每日图书借阅量统计", fontsize=14, fontweight="bold")
+ax1.bar(daily["借阅日期"], daily["外借"], color=color.bar_color1, alpha=0.8,label="Borrowings")
+ax1.bar(daily["借阅日期"],daily["续借"],bottom=daily["外借"],color=color.bar_color2, alpha=0.8,label="Renewals")
+ax1.axhline(y=daily["借阅量"].mean(), color=color.line_color1, linestyle="--", label=f"Average：{daily['借阅量'].mean():.1f}")
+ax1.set_title("Daily Statistics of Borrowings/Renewals", fontsize=14, fontweight="bold")
 ax1.set_ylabel("Borrowings and Renewals")
 ax1.legend()
 ax1.grid(alpha=0.3)
@@ -63,21 +63,25 @@ ax1.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d"))
 ax1.set_xlabel("Date")
 
 # 下半图：TOP10 日期柱状图
-ax2.barh(range(len(top10)), top10["外借"], color="cyan", alpha=0.8,label="Borrowings")
-ax2.barh(range(len(top10)), top10["续借"],left=top10["外借"],color="red",alpha=0.8,label="Renewals")
+ax2.barh(range(len(top10)), top10["外借"], color=color.bar_color1, alpha=0.8,label="Borrowings")
+ax2.barh(range(len(top10)), top10["续借"],left=top10["外借"],color=color.bar_color2,alpha=0.8,label="Renewals")
 ax2.set_yticks(range(len(top10)))
 ax2.set_yticklabels(top10["借阅日期"].dt.strftime("%m-%d"))
 ax2.set_xlabel("Borrowings and Renewals")
 ax2.set_title("Top 10 dates by circulation", fontweight="bold")
-ax2.axvline(x=daily["借阅量"].mean(), color="red", linestyle="--", label=f"Average：{daily['借阅量'].mean():.1f}")
+ax2.axvline(x=daily["借阅量"].mean(), color=color.line_color1, linestyle="--", label=f"Average：{daily['借阅量'].mean():.1f}")
 ax2.legend()
 # 在柱子上加数字
 for i, v in enumerate(top10["借阅量"]):
     ax2.text(v + 0.2, i, str(v), va="center", fontweight="bold")
 
+plt.tight_layout()
+plt.savefig('../rendering/每日借阅量.png')
+# .savefig('../rendering/top10借阅量日期.png')
 
-ax3.bar(month["借阅年月"],month["外借"],color="#4285F4", alpha=0.8,width=10,label="Borrowings")
-ax3.bar(month["借阅年月"],month["续借"],bottom=month["外借"],color="red", alpha=0.8,width=10,label="Renewals")
+fig1 ,((ax3,g10),(g11,g12)) = plt.subplots(2, 2, figsize=(12, 8))
+ax3.bar(month["借阅年月"],month["外借"],color=color.bar_color1, alpha=0.8,width=10,label="Borrowings")
+ax3.bar(month["借阅年月"],month["续借"],bottom=month["外借"],color=color.bar_color2, alpha=0.8,width=10,label="Renewals")
 
 ax3.set_title("Monthly Book Circulation Statistics",fontsize=14, fontweight="bold")
 ax3.set_ylabel("Borrowings and Renewals")
@@ -85,12 +89,12 @@ ax3.grid(alpha=0.3)
 ax3.xaxis.set_major_formatter(mdates.DateFormatter("%y-%m"))
 ax3.set_xlabel("Date")
 bar_width = 10
-g10.bar(G10_processed["借阅年月"],G10_processed["外借"],width=bar_width)
-g10.bar(G10_processed["借阅年月"],G10_processed["续借"],bottom=G10_processed["外借"],width=bar_width)
-g11.bar(G11_processed["借阅年月"],G11_processed["外借"],width=bar_width)
-g11.bar(G11_processed["借阅年月"],G11_processed["续借"],bottom=G11_processed["外借"],width=bar_width)
-g12.bar(G12_processed["借阅年月"],G12_processed["外借"],width=bar_width)
-g12.bar(G12_processed["借阅年月"],G12_processed["续借"],bottom=G12_processed["外借"],width=bar_width)
+g10.bar(G10_processed["借阅年月"],G10_processed["外借"],color=color.bar_color1,width=bar_width,alpha=0.8)
+g10.bar(G10_processed["借阅年月"],G10_processed["续借"],color=color.bar_color2,bottom=G10_processed["外借"],width=bar_width,alpha=0.8)
+g11.bar(G11_processed["借阅年月"],G11_processed["外借"],color=color.bar_color1,width=bar_width,alpha=0.8)
+g11.bar(G11_processed["借阅年月"],G11_processed["续借"],color=color.bar_color2,bottom=G11_processed["外借"],width=bar_width,alpha=0.8)
+g12.bar(G12_processed["借阅年月"],G12_processed["外借"],color=color.bar_color1,width=bar_width,alpha=0.8)
+g12.bar(G12_processed["借阅年月"],G12_processed["续借"],color=color.bar_color2,bottom=G12_processed["外借"],width=bar_width,alpha=0.8)
 
 g10.yaxis.set_major_locator(FixedLocator([0,100,200,300,400,500]))
 g11.yaxis.set_major_locator(FixedLocator([0,100,200,300,400,500]))
@@ -119,5 +123,5 @@ g12.xaxis.set_major_formatter(mdates.DateFormatter("%y-%m"))
 
 ax3.legend()
 plt.tight_layout()
-plt.savefig('../rendering/借阅量.png')
+plt.savefig('../rendering/每月借阅量.png')
 plt.show()

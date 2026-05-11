@@ -4,7 +4,7 @@ from matplotlib.ticker import MaxNLocator, FixedLocator
 import numpy as np
 from scipy.optimize import curve_fit
 import cal_for_three_class
-
+import color
 df = pd.read_excel("/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/dataset/all.xlsx"
                    ,sheet_name="Sheet1")
 
@@ -59,23 +59,24 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 fig, ((ax,g10),(g11,g12)) = plt.subplots(2, 2, figsize=(14, 8))
 
 
-ax.bar(bins_mid, counts_separate["外借"], width=25,color="#FFDC5E", alpha=1,label="Borrowings")
-ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],color="#FF69EB",width=25, alpha=1,label="Renewals")
+ax.bar(bins_mid, counts_separate["外借"], width=35,color=color.bar_color1, alpha=0.8,label="Borrowings")
+ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],color=color.bar_color2,width=35, alpha=1,label="Renewals")
 ax.set_xlabel('Page Intervals')
 
 ax.xaxis.set_major_locator(MaxNLocator(21))
 
 ax.set_ylabel('Borrowings/Renewals')
 ax.set_title('Borrowings/Renewals of different pages')
+vh_color=color.line_color1
+line_color=color.line_color1
 
-
-ax.plot(x_smooth, y_smooth, color='#002642', linestyle='-', label='norm curve')
-ax.axvline(x=mu, color='#16425B', linestyle='--',label=f'μ:{mu:.1f}(Pages)')
-width_color="#16425B"
-ax.hlines(y=A*0.5, xmin=mu - sigma, xmax=mu + sigma, color=width_color, linestyle='-', linewidth=2, label=f'σ:{sigma:.1f}')
+ax.plot(x_smooth, y_smooth, color=line_color, linestyle='-', label='norm curve')
+ax.axvline(x=mu, color=vh_color, linestyle='dashdot',linewidth=1,label=f'μ:{mu:.1f}(Pages)')
+width_color=vh_color
+ax.hlines(y=A*0.5, xmin=mu - sigma, xmax=mu + sigma, color=width_color, linestyle='--', linewidth=1, label=f'σ:{sigma:.1f}')
 ax.vlines([mu - sigma, mu + sigma], A*0.5 - 5/2, A*0.5 + 5/2, color=width_color, linewidth=2)
 
-cal_for_three_class.page_show(g10,g11,g12,G10_processed,G11_processed,G12_processed,bins_mid,"外借",20)
+cal_for_three_class.page_show(g10,g11,g12,G10_processed,G11_processed,G12_processed,bins_mid,"外借",35)
 ax.legend()
 plt.tight_layout()
 

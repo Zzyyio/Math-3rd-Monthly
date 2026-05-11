@@ -85,9 +85,9 @@ fig, borrow_sum = plt.subplots(1, 1, figsize=(8, 5))
 borrow_sum.bar(x_pos, year["数量"], color="#4285F4", alpha=0.8, width=0.5)
 # 映射加权平均到索引位置
 year_mean = np.interp(year_mean, year['写作日期'], x_pos)
-borrow_sum.axvline(x=year_mean, color="red", linestyle="--", label=f'center:{year_mean:.0f}')
-borrow_sum.set_title("借阅/续借量关于写作日期的分布", fontsize=14, fontweight="bold")
-borrow_sum.set_ylabel("该年写作的书的总借阅/续借量（本）")
+# borrow_sum.axvline(x=year_mean, color="red", linestyle="--", label=f'center:{year_mean:.0f}')
+borrow_sum.set_title("Distribution of Borrowing/Renewal by Writing Date", fontsize=14, fontweight="bold")
+borrow_sum.set_ylabel("Borrowings and Renewals")
 borrow_sum.grid(alpha=0.3)
 
 
@@ -104,12 +104,12 @@ tick_labels = year['写作日期'].iloc[tick_positions].tolist()
 borrow_sum.set_xticks(tick_positions)
 borrow_sum.set_xticklabels(tick_labels, rotation=45)
 
-
+borrow_sum.set_xlabel("Date")
 
 # borrow_sum.plot(np.interp(x_fit, x_data, x_pos), y_fit, color='orange', label='Gamma-like fit')
 
 
-borrow_sum.legend()
+# borrow_sum.legend()
 plt.tight_layout()
 plt.savefig("../rendering/写作日期_int.png")
 plt.show()

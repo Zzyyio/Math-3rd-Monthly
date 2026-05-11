@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib
 from matplotlib.ticker import MaxNLocator, FixedLocator
-
+import color
 
 def process(df,tgtstr):
     IB24G10 = df[df["Grade"] == "IB24G10"]
@@ -32,13 +32,13 @@ def show(g10,g11,g12,g10_data,g11_data,g12_data,x_label,y_label):
     g12.bar(g12_data[x_label],g12_data[y_label])
 
 def page_show(g10,g11,g12,g10_data,g11_data,g12_data,bins,y_label,width):
-    g10.bar(bins,g10_data[y_label],width=width,label=y_label,alpha=0.8)
-    g11.bar(bins,g11_data[y_label],width=width,alpha=0.8)
-    g12.bar(bins,g12_data[y_label],width=width,alpha=0.8)
+    g10.bar(bins,g10_data[y_label],color=color.bar_color1,width=width,label=y_label,alpha=0.8)
+    g11.bar(bins,g11_data[y_label],color=color.bar_color1,width=width,alpha=0.8)
+    g12.bar(bins,g12_data[y_label],color=color.bar_color1,width=width,alpha=0.8)
 
-    g10.bar(bins,g10_data["续借"],bottom=g10_data[y_label],width=width,alpha=0.8,label="续借")
-    g11.bar(bins,g11_data["续借"],bottom=g11_data[y_label],width=width,alpha=0.8)
-    g12.bar(bins,g12_data["续借"],bottom=g12_data[y_label],width=width,alpha=0.8)
+    g10.bar(bins,g10_data["续借"],bottom=g10_data[y_label],color=color.bar_color2,width=width,alpha=0.8,label="续借")
+    g11.bar(bins,g11_data["续借"],bottom=g11_data[y_label],color=color.bar_color2,width=width,alpha=0.8)
+    g12.bar(bins,g12_data["续借"],bottom=g12_data[y_label],color=color.bar_color2,width=width,alpha=0.8)
 
     g10.set_xlabel('Page Intervals')
     g10.xaxis.set_major_locator(MaxNLocator(21))

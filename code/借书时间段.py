@@ -5,6 +5,7 @@ from matplotlib.ticker import MaxNLocator, FixedLocator
 from scipy.ndimage import gaussian_filter1d
 from scipy.optimize import curve_fit
 
+import color
 
 # ===================== 1. 读取数据 =====================
 # 请改成你自己的 Excel 文件名
@@ -81,11 +82,11 @@ daily_sum.to_excel(output_location, sheet_name="Sheet1")
 plt.rcParams['font.sans-serif'] = ['Arial']
 plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 
-bar_color1='#3673AA'
-bar_color2='#4AA6B6'
-curve_color='#FF8811'
-center_line_color='#F4D035'
-width_color='#F4D06F'
+
+
+curve_color=color.line_color1
+center_line_color=color.line_color1
+width_color=color.line_color1
 fig,((ax1 ,g10),(g11,g12))= plt.subplots(2, 2, figsize=(15, 8))
 
 def set_twin_label(ax):
@@ -95,12 +96,12 @@ def set_twin_label(ax):
     axx.set_yticks([0, 0.5, 1.0, 1.5, 2.0])
 
 #bar graph
-ax1.bar(daily_sum["借阅时间段"], daily_separate["外借"], color=bar_color1, alpha=0.9,label="Borrowings")
-ax1.bar(daily_sum["借阅时间段"],daily_separate["续借"],bottom=daily_separate["外借"], color=bar_color2, alpha=0.9,label="Renewals")
+ax1.bar(daily_sum["借阅时间段"], daily_separate["外借"], color=color.bar_color1, alpha=0.9,label="Borrowings")
+ax1.bar(daily_sum["借阅时间段"],daily_separate["续借"],bottom=daily_separate["外借"], color=color.bar_color2, alpha=0.9,label="Renewals")
 #curve graph
 x_smooth = np.linspace(0, 23, 200)
 y_smooth = double_gaussian(x_smooth, *params)
-ax1.plot(x_smooth, y_smooth, color=curve_color, linewidth=2, label='Bimodal Curve')
+ax1.plot(x_smooth, y_smooth, color=curve_color, linewidth=1, label='Bimodal Curve')
 #set title/label/grid
 ax1.set_title("Hourly Borrowings/Renewals Statistics", fontsize=14, fontweight="bold")
 ax1.set_ylabel("Total Borrowings/Renewals")
@@ -111,13 +112,13 @@ rax1.set_ylim(0, 2.0)
 rax1.set_yticks([0,0.5,1.0,1.5,2.0])
 ax1.grid(alpha=0.3)
 #draw center line(μ)
-ax1.axvline(mu1, color=center_line_color, linestyle='-',linewidth=2)
-ax1.axvline(mu2, color=center_line_color, linestyle='-', label=f'μ1:{mu1:.1f}\nμ2:{mu2:.1f}',linewidth=2)
+ax1.axvline(mu1, color=center_line_color, linestyle='--',linewidth=1)
+ax1.axvline(mu2, color=center_line_color, linestyle='--', label=f'μ1:{mu1:.1f}\nμ2:{mu2:.1f}',linewidth=1)
 #draw width(σ)
 y1line = a1*0.5
 y2line = a2*0.5
-ax1.hlines(y=y1line, xmin=mu1 - sigma1, xmax=mu1 + sigma1, color=width_color, linestyle='-', linewidth=2, label=f'σ1:{sigma1:.1f}\nσ2:{sigma2:.1f}')
-ax1.hlines(y=y2line, xmin=mu2 - sigma2, xmax=mu2 + sigma2, color=width_color, linestyle='-', linewidth=2)
+ax1.hlines(y=y1line, xmin=mu1 - sigma1, xmax=mu1 + sigma1, color=width_color, linestyle='--', linewidth=1, label=f'σ1:{sigma1:.1f}\nσ2:{sigma2:.1f}')
+ax1.hlines(y=y2line, xmin=mu2 - sigma2, xmax=mu2 + sigma2, color=width_color, linestyle='--', linewidth=1)
 
 cap_height = 5  # 竖线高度
 ax1.vlines([mu1 - sigma1, mu1 + sigma1], y1line - cap_height/2, y1line + cap_height/2, color=width_color, linewidth=2)
@@ -126,12 +127,12 @@ ax1.vlines([mu2 - sigma2, mu2 + sigma2], y2line - cap_height/2, y2line + cap_hei
 
 ax1.xaxis.set_major_locator(MaxNLocator(nbins=10, integer=True))
 
-g10.bar(IB24G10_processed["借阅时间段"],IB24G10_processed["外借"],label="Borrowings")
-g10.bar(IB24G10_processed["借阅时间段"],IB24G10_processed["续借"],bottom=IB24G10_processed["外借"],label="Renewals")
-g11.bar(IB23G11_processed["借阅时间段"],IB23G11_processed["外借"],label="Borrowings")
-g11.bar(IB23G11_processed["借阅时间段"],IB23G11_processed["续借"],bottom=IB23G11_processed["外借"],label="Renewals")
-g12.bar(IB22G12_processed["借阅时间段"],IB22G12_processed["外借"],label="Borrowings")
-g12.bar(IB22G12_processed["借阅时间段"],IB22G12_processed["续借"],bottom=IB22G12_processed["外借"],label="Renewals")
+g10.bar(IB24G10_processed["借阅时间段"],IB24G10_processed["外借"],color=color.bar_color1,label="Borrowings")
+g10.bar(IB24G10_processed["借阅时间段"],IB24G10_processed["续借"],color=color.bar_color2,bottom=IB24G10_processed["外借"],label="Renewals")
+g11.bar(IB23G11_processed["借阅时间段"],IB23G11_processed["外借"],color=color.bar_color1,label="Borrowings")
+g11.bar(IB23G11_processed["借阅时间段"],IB23G11_processed["续借"],color=color.bar_color2,bottom=IB23G11_processed["外借"],label="Renewals")
+g12.bar(IB22G12_processed["借阅时间段"],IB22G12_processed["外借"],color=color.bar_color1,label="Borrowings")
+g12.bar(IB22G12_processed["借阅时间段"],IB22G12_processed["续借"],color=color.bar_color2,bottom=IB22G12_processed["外借"],label="Renewals")
 
 g10.xaxis.set_major_locator(FixedLocator([0,3,6,9,12,15,18,21,24]))
 g11.xaxis.set_major_locator(FixedLocator([0,3,6,9,12,15,18,21,24]))
@@ -150,6 +151,9 @@ g11.set_ylim(0, 350)
 g12.set_ylim(0, 350)
 g10.set_ylim(0, 350)
 
+g10.set_xlabel("Hours")
+g11.set_xlabel("Hours")
+g12.set_xlabel("Hours")
 ax1.legend()
 g10.legend()
 g11.legend()
