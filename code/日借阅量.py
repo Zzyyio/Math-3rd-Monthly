@@ -52,38 +52,38 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 fig, ((ax1,g10),(ax2,g11),(ax3,g12)) = plt.subplots(3, 2, figsize=(12, 8))
 
 # 上半图：每日借阅量趋势
-ax1.bar(daily["借阅日期"], daily["外借"], color="#4285F4", alpha=0.8,label="外借量")
-ax1.bar(daily["借阅日期"],daily["续借"],bottom=daily["外借"],color="#428500", alpha=0.8,label="续借量")
-ax1.axhline(y=daily["借阅量"].mean(), color="red", linestyle="--", label=f"平均：{daily['借阅量'].mean():.1f}")
+ax1.bar(daily["借阅日期"], daily["外借"], color="#4285F4", alpha=0.8,label="Borrowings")
+ax1.bar(daily["借阅日期"],daily["续借"],bottom=daily["外借"],color="#428500", alpha=0.8,label="Renewals")
+ax1.axhline(y=daily["借阅量"].mean(), color="red", linestyle="--", label=f"Average：{daily['借阅量'].mean():.1f}")
 ax1.set_title("每日图书借阅量统计", fontsize=14, fontweight="bold")
-ax1.set_ylabel("借阅量")
+ax1.set_ylabel("Borrowings and Renewals")
 ax1.legend()
 ax1.grid(alpha=0.3)
 ax1.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d"))
-
+ax1.set_xlabel("Date")
 
 # 下半图：TOP10 日期柱状图
-ax2.barh(range(len(top10)), top10["外借"], color="cyan", alpha=0.8,label="外借量")
-ax2.barh(range(len(top10)), top10["续借"],left=top10["外借"],color="red",alpha=0.8,label="续借量")
+ax2.barh(range(len(top10)), top10["外借"], color="cyan", alpha=0.8,label="Borrowings")
+ax2.barh(range(len(top10)), top10["续借"],left=top10["外借"],color="red",alpha=0.8,label="Renewals")
 ax2.set_yticks(range(len(top10)))
 ax2.set_yticklabels(top10["借阅日期"].dt.strftime("%m-%d"))
-ax2.set_xlabel("借阅量")
-ax2.set_title("借阅量最高的10个日期", fontweight="bold")
-ax2.axvline(x=daily["借阅量"].mean(), color="red", linestyle="--", label=f"平均：{daily['借阅量'].mean():.1f}")
+ax2.set_xlabel("Borrowings and Renewals")
+ax2.set_title("Top 10 dates by circulation", fontweight="bold")
+ax2.axvline(x=daily["借阅量"].mean(), color="red", linestyle="--", label=f"Average：{daily['借阅量'].mean():.1f}")
 ax2.legend()
 # 在柱子上加数字
 for i, v in enumerate(top10["借阅量"]):
     ax2.text(v + 0.2, i, str(v), va="center", fontweight="bold")
 
 
-ax3.bar(month["借阅年月"],month["外借"],color="#4285F4", alpha=0.8,width=10,label="外借量")
-ax3.bar(month["借阅年月"],month["续借"],bottom=month["外借"],color="red", alpha=0.8,width=10,label="续借量")
+ax3.bar(month["借阅年月"],month["外借"],color="#4285F4", alpha=0.8,width=10,label="Borrowings")
+ax3.bar(month["借阅年月"],month["续借"],bottom=month["外借"],color="red", alpha=0.8,width=10,label="Renewals")
 
-ax3.set_title("每月图书借阅量统计",fontsize=14, fontweight="bold")
-ax3.set_ylabel("借阅量")
+ax3.set_title("Monthly Book Circulation Statistics",fontsize=14, fontweight="bold")
+ax3.set_ylabel("Borrowings and Renewals")
 ax3.grid(alpha=0.3)
 ax3.xaxis.set_major_formatter(mdates.DateFormatter("%y-%m"))
-
+ax3.set_xlabel("Date")
 bar_width = 10
 g10.bar(G10_processed["借阅年月"],G10_processed["外借"],width=bar_width)
 g10.bar(G10_processed["借阅年月"],G10_processed["续借"],bottom=G10_processed["外借"],width=bar_width)
@@ -99,9 +99,15 @@ g11.set_ylim(0, 500)
 g12.set_ylim(0, 500)
 g10.set_ylim(0, 500)
 
-g10.set_title("G10", fontsize=14, fontweight="bold")
-g11.set_title("G11", fontsize=14, fontweight="bold")
-g12.set_title("G12", fontsize=14, fontweight="bold")
+g10.set_ylabel("Borrowings and Renewals")
+g11.set_ylabel("Borrowings and Renewals")
+g12.set_ylabel("Borrowings and Renewals")
+g10.set_xlabel("Date")
+g11.set_xlabel("Date")
+g12.set_xlabel("Date")
+g10.set_title("Monthly Book Circulation Statistics-G10", fontsize=14, fontweight="bold")
+g11.set_title("Monthly Book Circulation Statistics-G11", fontsize=14, fontweight="bold")
+g12.set_title("Monthly Book Circulation Statistics-G12", fontsize=14, fontweight="bold")
 
 g10.xaxis.set_major_formatter(mdates.DateFormatter("%y-%m"))
 g11.xaxis.set_major_formatter(mdates.DateFormatter("%y-%m"))
