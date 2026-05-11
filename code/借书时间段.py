@@ -16,20 +16,20 @@ date_col = "Circulation Time"
 
 df["借阅时间段"] = pd.to_datetime(df[date_col]).dt.hour
 df = df[df["Circulation Type"].isin(["外借","续借"])]
-df["日期"] = pd.to_datetime(df[date_col]).dt.date
-df["小时"] = pd.to_datetime(df[date_col]).dt.hour
 
-# 2️⃣ 创建完整的日期-小时组合
-all_dates = df["日期"].unique()
-all_hours = np.arange(24)
-all_combinations = pd.MultiIndex.from_product([all_dates, all_hours], names=["日期", "小时"])
-
-# 3️⃣ 按日期和小时统计借阅量
-daily_hourly = df.groupby(["日期", "小时"]).size().reindex(all_combinations, fill_value=0).reset_index(name="借阅量")
-
-# 4️⃣ 按小时计算每日平均
-hourly_avg = daily_hourly.groupby("小时")["借阅量"].mean().reset_index(name="平均借阅量")
-
+# df["日期"] = pd.to_datetime(df[date_col]).dt.date
+# df["小时"] = pd.to_datetime(df[date_col]).dt.hour
+# # 2️⃣ 创建完整的日期-小时组合
+# all_dates = df["日期"].unique()
+# all_hours = np.arange(24)
+# all_combinations = pd.MultiIndex.from_product([all_dates, all_hours], names=["日期", "小时"])
+#
+# # 3️⃣ 按日期和小时统计借阅量
+# daily_hourly = df.groupby(["日期", "小时"]).size().reindex(all_combinations, fill_value=0).reset_index(name="借阅量")
+#
+# # 4️⃣ 按小时计算每日平均
+# hourly_avg = daily_hourly.groupby("小时")["借阅量"].mean().reset_index(name="平均借阅量")
+#
 
 daily_sum = df.groupby("借阅时间段").size().reset_index(name="借阅量")
 
@@ -62,8 +62,8 @@ params, _ = curve_fit(double_gaussian, daily_sum["借阅时间段"], borrow_smoo
 a1, mu1, sigma1, a2, mu2, sigma2 =params
 print("拟合参数:", params)
 
-
-
+output_location="/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/output_dataset/op.xlsx"
+daily_sum.to_excel(output_location, sheet_name="Sheet1")
 
 #rendering
 plt.rcParams['font.sans-serif'] = ['Arial']
