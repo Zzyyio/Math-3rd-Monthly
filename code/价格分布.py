@@ -45,12 +45,12 @@ fig, ((ax,g10),(g11,g12)) = plt.subplots(2, 2, figsize=(14, 8))
 
 ax.bar(bins_mid, counts_separate["外借"], width=10,color=color.bar_color1, alpha=color.alpha,label="Borrowings")
 ax.bar(bins_mid, counts_separate["续借"], bottom=counts_separate["外借"],color=color.bar_color2,width=10, alpha=color.alpha,label="Renewals")
-ax.set_xlabel('Page Intervals')
+ax.set_xlabel('Price Intervals')
 
 ax.xaxis.set_major_locator(FixedLocator(bins))
 
 ax.set_ylabel('Borrowings/Renewals')
-ax.set_title('Borrowings/Renewals of different pages')
+ax.set_title('Borrowings/Renewals of different prices')
 
 
 vh_color=color.line_color1

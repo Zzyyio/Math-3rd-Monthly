@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator, FixedLocator
 import numpy as np
 from scipy.optimize import curve_fit
-import cal_for_three_class
+from scipy.special import gamma
+
+
 import color
 
 
@@ -34,17 +36,38 @@ small_price_mean /= small_counts.values.sum()
 small_price_mean = float(round(small_price_mean, 2))
 
 
-def normal_func(x, A, mu, sigma):
-    return A * np.exp(-(x-mu)**2 / (2*sigma**2))
+# ------------------ 定义 Gamma 拟合函数 ------------------
+# Gamma PDF: f(x; a, scale) = x**(a-1) * exp(-x/scale) / (gamma(a) * scale**a)
+# 我们加一个整体放缩参数 A
+def gamma_func(x, A, a, scale):
+    return A * (x**(a-1) * np.exp(-x/scale))
 
-# 用 bin_mid 和 counts.values 拟合
-popt, _ = curve_fit(normal_func, small_bins_mid, small_counts.values, p0=[max(small_counts.values), small_price_mean, 50])
+# 初始猜测值: A=max(counts), a=2, scale=mean/2
+p0 = [200, 1.2, 20]
+
+# 拟合
+popt, _ = curve_fit(gamma_func, small_bins_mid, small_counts.values, p0=p0, maxfev=10000 )
+A_fit, a_fit, theta_fit = popt
 
 
-A,mu,sigma=popt
+# 计算衍生参数
+mode = (a_fit - 1) * theta_fit if a_fit > 1 else 0
+mean = a_fit * theta_fit
+var = a_fit * theta_fit**2
+sigma = np.sqrt(var)
+fmax = gamma_func(mode, A_fit, a_fit, theta_fit)
+
+
+print(popt)
 # 拟合曲线
 x_smooth = np.linspace(small_bins_mid[0]-25, small_bins_mid[-1]+25, 200)
-y_smooth = normal_func(x_smooth, *popt)
+y_smooth = gamma_func(x_smooth, *popt)
+
+
+vh_color = color.line_color1
+line_color = color.line_color1
+width_color = color.line_color1
+
 
 # ===================== 5. 画图 =====================
 
@@ -57,21 +80,36 @@ vh_color=color.line_color1
 line_color=color.line_color1
 
 width_color=color.line_color1
+# 拟合曲线
+zoomin.plot(x_smooth, y_smooth, color=line_color, linestyle='-', label='gamma curve')
 
-zoomin.plot(x_smooth, y_smooth, color=line_color, linestyle='-', label='norm curve')
-zoomin.axvline(x=mu, color=vh_color, linestyle='dashdot',linewidth=1,label=f'μ:{mu:.1f}(Pages)')
+# 用 Gamma 分布的峰值位置 (mode = (a-1)*scale) 画虚线
+mode = (a_fit - 1) * theta_fit if a_fit > 1 else 0
+zoomin.axvline(x=mode, color=vh_color, linestyle='dashdot', linewidth=1, label=f'mode:{mode:.1f}')
+
+print(a_fit)
+# 可以用 y = A*0.5 做宽度参考
+
+# width_location=A_fit*0.5
+# zoomin.hlines(y=width_location, xmin=mode - theta_fit, xmax=mode + theta_fit,
+#                color=width_color, linestyle='--', linewidth=1, label=f'scale:{a_fit:.1f}')
+# zoomin.vlines([mode - theta_fit, mode + theta_fit], width_location - 5/2, width_location + 5/2,
+#                color=width_color, linewidth=2)
 
 
-zoomin.hlines(y=A*0.5, xmin=mu - sigma, xmax=mu + sigma, color=width_color, linestyle='--', linewidth=1, label=f'σ:{sigma:.1f}')
-zoomin.vlines([mu - sigma, mu + sigma], A*0.5 - 5/2, A*0.5 + 5/2, color=width_color, linewidth=2)
 
-zoomin.bar(small_bins_mid,small_counts_separate["外借"],width=5,color=color.bar_color1)
-zoomin.bar(small_bins_mid,small_counts_separate["续借"],bottom=small_counts_separate["外借"],width=5,color=color.bar_color2)
+
+
+zoomin.bar(small_bins_mid,small_counts_separate["外借"],width=5,color=color.bar_color1,label="外借")
+zoomin.bar(small_bins_mid,small_counts_separate["续借"],bottom=small_counts_separate["外借"],width=5,color=color.bar_color2,label="续借")
 
 zoomin.xaxis.set_major_locator(FixedLocator(small_bins))
 
 zoomin.legend()
 
+zoomin.set_title("Borrowings/Renewals of different prices(Zoomed Version)")
+zoomin.set_xlabel("Price intervals")
+zoomin.set_ylabel("Borrowings/Renewals")
 plt.tight_layout()
 
 plt.savefig('../rendering/页数.png')

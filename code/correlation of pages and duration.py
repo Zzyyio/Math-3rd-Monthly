@@ -5,18 +5,7 @@ import color
 file_path = '/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/dataset/汇总结果.csv'
 df = pd.read_csv(file_path)
 
-# ---------- 处理 pages 列 ----------
-# def extract_page_number(pages_str):
-#     if pd.isna(pages_str):
-#         return None
-#     # 只取开头的数字
-#     for char in pages_str:
-#         if not char.isdigit():
-#             break
-#     num = ''.join([c for c in pages_str if c.isdigit()])
-#     return int(num) if num else None
-#
-# df['pages_num'] = df['Pages'].apply(extract_page_number)
+
 
 df['pages_num'] = df["Pages"].str.extract(r'(\d+)')[0].astype('Int64')
 

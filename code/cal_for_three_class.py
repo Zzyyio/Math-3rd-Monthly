@@ -74,19 +74,19 @@ def page_show(g10,g11,g12,g10_data,g11_data,g12_data,bins,y_label,width,alpha):
 
 
 def price_show(g10,g11,g12,g10_data,g11_data,g12_data,mid_bins,y_label,width,alpha,bins):
-    g10.bar(mid_bins, g10_data[y_label], color=color.bar_color1, width=width, label=y_label, alpha=alpha)
-    g11.bar(mid_bins, g11_data[y_label], color=color.bar_color1, width=width, alpha=alpha)
-    g12.bar(mid_bins, g12_data[y_label], color=color.bar_color1, width=width, alpha=alpha)
+    g10.bar(mid_bins, g10_data[y_label], color=color.bar_color1, width=width,label="Borrowings", alpha=alpha)
+    g11.bar(mid_bins, g11_data[y_label], color=color.bar_color1, width=width,label="Borrowings", alpha=alpha)
+    g12.bar(mid_bins, g12_data[y_label], color=color.bar_color1, width=width,label="Borrowings", alpha=alpha)
 
-    g10.bar(mid_bins, g10_data["续借"], bottom=g10_data[y_label], color=color.bar_color2, width=width, alpha=alpha, label="续借")
-    g11.bar(mid_bins, g11_data["续借"], bottom=g11_data[y_label], color=color.bar_color2, width=width, alpha=alpha)
-    g12.bar(mid_bins, g12_data["续借"], bottom=g12_data[y_label], color=color.bar_color2, width=width, alpha=alpha)
+    g10.bar(mid_bins, g10_data["续借"], bottom=g10_data[y_label], color=color.bar_color2, width=width, alpha=alpha, label="Renewals")
+    g11.bar(mid_bins, g11_data["续借"], bottom=g11_data[y_label], color=color.bar_color2, width=width, alpha=alpha, label="Renewals")
+    g12.bar(mid_bins, g12_data["续借"], bottom=g12_data[y_label], color=color.bar_color2, width=width, alpha=alpha, label="Renewals")
 
-    g10.set_xlabel('Page Intervals')
+    g10.set_xlabel('Price Intervals')
     g10.xaxis.set_major_locator(FixedLocator(bins))
-    g11.set_xlabel('Page Intervals')
+    g11.set_xlabel('Price Intervals')
     g11.xaxis.set_major_locator(FixedLocator(bins))
-    g12.set_xlabel('Page Intervals')
+    g12.set_xlabel('Price Intervals')
     g12.xaxis.set_major_locator(FixedLocator(bins))
 
 
@@ -101,4 +101,7 @@ def price_show(g10,g11,g12,g10_data,g11_data,g12_data,mid_bins,y_label,width,alp
     g10.set_title("G10(Scaled)")
     g11.set_title("G11(Scaled)")
     g12.set_title("G12(Scaled)")
+    g10.legend()
+    g11.legend()
+    g12.legend()
 
