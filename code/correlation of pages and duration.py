@@ -23,7 +23,7 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 
 # ---------- 绘制散点图 ----------
 
-fig, (lend_duration_sum,lend_times,year) = plt.subplots(3,1,figsize=(8,10))
+fig, (lend_duration_sum,lend_times) = plt.subplots(2,1,figsize=(8,10))
 
 
 lend_duration_sum.scatter(df_clean['pages_num'], df_clean['lend_time_sum'],s=color.dot_size1,c=color.dot_color1)

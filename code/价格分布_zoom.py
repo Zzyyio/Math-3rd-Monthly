@@ -112,5 +112,5 @@ zoomin.set_xlabel("Price intervals")
 zoomin.set_ylabel("Borrowings/Renewals")
 plt.tight_layout()
 
-plt.savefig('../rendering/页数.png')
+plt.savefig('../rendering/价格zoom.png')
 plt.show()
