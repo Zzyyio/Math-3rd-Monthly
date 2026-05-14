@@ -34,14 +34,17 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 
 # ---------- 平均借阅时间柱状图 ----------
 axes[0].bar(grouped['Classification'], grouped['平均借阅时间(天)'], color='skyblue')
-axes[0].set_title('平均借阅时间 (天)')
+axes[0].set_title('平均每次借阅时间 (天)')
 axes[0].set_xlabel('书籍分类')
 axes[0].set_ylabel('平均借阅时间 (天)')
 axes[0].set_xticks(range(len(grouped['Classification'])))
 axes[0].set_xticklabels(grouped['Classification'], rotation=30, ha='right')
 print(grouped['Classification'],grouped['总借入'])
 # ---------- 总借入次数柱状图 ----------
-axes[1].pie(grouped['总借入'],labels=grouped['Classification'])
+total = grouped['总借入'].sum()
+percent_labels = [f"{c} ({v/total*100:.1f}%)" for c, v in zip(grouped['Classification'], grouped['总借入'])]
+
+axes[1].pie(grouped['总借入'],labels=percent_labels)
 axes[1].set_title('总借入次数')
 # axes[1].set_xlabel('书籍分类')
 # axes[1].set_ylabel('总借入次数')
@@ -49,7 +52,7 @@ axes[1].set_title('总借入次数')
 # axes[1].set_xticklabels(grouped['Classification'], rotation=30, ha='right')
 
 axes[2].bar(grouped['Classification'],grouped['总借入平均量']*grouped['平均借阅时间(天)'])
-axes[2].set_title('总借阅时间')
+axes[2].set_title('每类书的平均总借阅时间')
 axes[2].set_xlabel('书籍分类')
 axes[2].set_ylabel('总借阅时间')
 axes[2].set_xticks(range(len(grouped['Classification'])))

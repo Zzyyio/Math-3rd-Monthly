@@ -45,7 +45,7 @@ def normal_func(x, A, mu, sigma):
 # 用 bin_mid 和 counts.values 拟合
 popt, _ = curve_fit(normal_func, bins_mid, counts.values, p0=[max(counts.values), pages_mean, 50])
 
-
+print(popt)
 A,mu,sigma=popt
 # 拟合曲线
 x_smooth = np.linspace(bins_mid[0]-25, bins_mid[-1]+25, 200)

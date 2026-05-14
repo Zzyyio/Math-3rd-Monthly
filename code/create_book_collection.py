@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 # ---------- 读取 ----------
-df = pd.read_excel('/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/dataset/all.xlsx')
+df = pd.read_excel('/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/dataset/all_g12.xlsx')
 df.columns = [c.strip() for c in df.columns]
 df['Circulation Time'] = pd.to_datetime(df['Circulation Time'])
 
@@ -69,5 +69,5 @@ title_agg = full.groupby('Title').apply(
 ).reset_index()
 
 # ---------- 导出 ----------
-title_agg.to_csv('汇总结果.csv', index=False, encoding='utf-8-sig')
+title_agg.to_csv('汇总结果_g12.csv', index=False, encoding='utf-8-sig')
 print("处理完成！文件已保存为 汇总结果.csv")

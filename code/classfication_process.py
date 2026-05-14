@@ -1,7 +1,7 @@
 import pandas as pd
 
 # ---------- 文件路径 ----------
-file_path = '/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/dataset/汇总结果.csv'
+file_path = '/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for students/dataset/汇总结果_g12.csv'
 
 # ---------- 读取 CSV ----------
 df = pd.read_csv(file_path)
