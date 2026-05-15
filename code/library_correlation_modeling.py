@@ -68,7 +68,7 @@ def build_book_level_features(all_df: pd.DataFrame, summary_df: pd.DataFrame) ->
     df["Pages"] = _to_numeric(df["Pages"])
 
     # Event flags and times
-    is_borrow = df["Circulation Type"].astype(str).str.contains("借", na=False)
+    is_borrow = df["Circulation Type"].astype(str).str.contains("借入", na=False)
     is_renew = df["Circulation Type"].astype(str).str.contains("续", na=False)
     is_return = df["Circulation Type"].astype(str).str.contains("归还", na=False)
 

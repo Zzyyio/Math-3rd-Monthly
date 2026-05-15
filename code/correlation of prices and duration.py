@@ -38,6 +38,7 @@ plt.rcParams['axes.unicode_minus'] = False  # 负号正常显示
 fig, (lend_duration_sum,lend_times) = plt.subplots(2,1,figsize=(10,10))
 
 print(stats.pearsonr(df_clean['Price'], df_clean['lend_time_sum']))
+print(stats.spearmanr(df_clean['Price'], df_clean['lend_time_sum']))
 lend_duration_sum.scatter(df_clean['Price'], df_clean['lend_time_sum'],s=color.dot_size1,c=color.dot_color1)
 lend_duration_sum.set_xlabel('prices')
 lend_duration_sum.set_ylabel('average borrowing duration')
@@ -46,6 +47,7 @@ lend_duration_sum.grid(True)
 
 
 print(stats.pearsonr(df_clean['Price'], df_clean['总借入']))
+print(stats.spearmanr(df_clean['Price'], df_clean['总借入']))
 lend_times.scatter(df_clean['Price'],df_clean['总借入'],s=color.dot_size1,c=color.dot_color1)
 lend_times.set_xlabel('prices')
 lend_times.set_ylabel('Total borrow count per book')

@@ -27,7 +27,8 @@ for cls in classifications:
         i,
         label=cls,
         color=color_map[cls],
-        s=color.dot_size1
+        s=color.dot_size1,
+        alpha=0.3
     )
     i=i+1
 

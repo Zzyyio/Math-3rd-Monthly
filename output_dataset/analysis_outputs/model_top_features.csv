@@ -1,0 +1,41 @@
+﻿target,model,rank,feature,importance
+总借入和续借量,RandomForestRegressor,1,num__record_count,0.8099351760761042
+总借入和续借量,RandomForestRegressor,2,num__总借入,0.11833157837694488
+总借入和续借量,RandomForestRegressor,3,num__renew_count,0.01890982868177367
+总借入和续借量,RandomForestRegressor,4,num__总续借,0.017308735284251614
+总借入和续借量,RandomForestRegressor,5,num__return_count,0.007060280205258133
+总借入和续借量,RandomForestRegressor,6,cat__first_circulation_2024-09-05 11:25:41,0.0015605527061309697
+总借入和续借量,RandomForestRegressor,7,cat__author_mode_(法)司汤达著;罗新璋译,0.00139037589991696
+总借入和续借量,RandomForestRegressor,8,cat__Publisher_天津人民出版社,0.0011071535702211622
+总借入和续借量,RandomForestRegressor,9,cat__Place of Publication_天津,0.001059846767677891
+总借入和续借量,RandomForestRegressor,10,num__active_days,0.0010463425540598002
+总借入和续借量,RandomForestRegressor,11,cat__Publication time_2016.11   ,0.0008655362136874836
+总借入和续借量,RandomForestRegressor,12,cat__first_circulation_2024-09-04 17:28:58,0.0008631158072361514
+总借入和续借量,RandomForestRegressor,13,cat__last_circulation_2025-03-13 17:21:35,0.0007761598634699856
+总借入和续借量,RandomForestRegressor,14,cat__place_mode_天津,0.0007496785037064831
+总借入和续借量,RandomForestRegressor,15,cat__publisher_mode_天津人民出版社,0.0006395342687662856
+总借入和续借量,RandomForestRegressor,16,cat__classnum_mode_I565.44,0.0006288569627941491
+总借入和续借量,RandomForestRegressor,17,num__Price,0.0005278744594914141
+总借入和续借量,RandomForestRegressor,18,num__median_price,0.00037124153771519666
+总借入和续借量,RandomForestRegressor,19,num__unique_grades,0.0003256518668357413
+总借入和续借量,RandomForestRegressor,20,num__unique_users,0.00028346577407763874
+平均借阅时间(天),RandomForestRegressor,1,num__active_days,0.7476800944295473
+平均借阅时间(天),RandomForestRegressor,2,num__record_count,0.11970712506578503
+平均借阅时间(天),RandomForestRegressor,3,num__return_count,0.013794701391624642
+平均借阅时间(天),RandomForestRegressor,4,num__Price,0.00782719362232621
+平均借阅时间(天),RandomForestRegressor,5,num__median_price,0.007440604374307509
+平均借阅时间(天),RandomForestRegressor,6,num__unique_users,0.0068342258548432
+平均借阅时间(天),RandomForestRegressor,7,num__unique_grades,0.004328205481479682
+平均借阅时间(天),RandomForestRegressor,8,cat__classnum_mode_F0,0.0029122844359473032
+平均借阅时间(天),RandomForestRegressor,9,num__总借入,0.002573596262084375
+平均借阅时间(天),RandomForestRegressor,10,cat__first_circulation_2024-09-23 15:23:07,0.002495989706155627
+平均借阅时间(天),RandomForestRegressor,11,cat__Place of Publication_England,0.0022172195335895283
+平均借阅时间(天),RandomForestRegressor,12,cat__last_circulation_2025-06-06 15:37:39,0.002137322407136381
+平均借阅时间(天),RandomForestRegressor,13,cat__place_mode_England,0.0020137304438156414
+平均借阅时间(天),RandomForestRegressor,14,cat__Publication time_2016      ,0.001684387980331641
+平均借阅时间(天),RandomForestRegressor,15,cat__Publisher_Pearson,0.0016419256358828388
+平均借阅时间(天),RandomForestRegressor,16,cat__publisher_mode_Pearson,0.001611793749752349
+平均借阅时间(天),RandomForestRegressor,17,cat__publisher_mode_ 北京联合出版公司,0.0015863682595488187
+平均借阅时间(天),RandomForestRegressor,18,cat__author_mode_Douglas C. Giancoli,0.0014862822435897439
+平均借阅时间(天),RandomForestRegressor,19,cat__Publisher_ 北京联合出版公司,0.0013646765200635964
+平均借阅时间(天),RandomForestRegressor,20,cat__last_circulation_2025-06-03 12:07:57,0.0013575026813394822

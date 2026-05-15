@@ -1,0 +1,3 @@
+﻿target,model,mae,r2
+总借入和续借量,RandomForestRegressor,0.03778052805280528,0.9758967927882248
+平均借阅时间(天),RandomForestRegressor,6.88665235426009,0.8315129085751712
