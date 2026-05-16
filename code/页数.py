@@ -11,7 +11,6 @@ df = pd.read_excel("/Users/zzyyio/PycharmProjects/25-26 2nd term MT3 for student
 df = df[df["Circulation Type"].isin(["外借","续借"])]
 # 2️⃣ 提取页数（数字部分）
 date_col = "Pages"
-df['pages'] = df[date_col].str.extract(r'(\d+)')[0].astype('Int64')
 
 
 # 4️⃣ 定义页数区间（可根据需要修改）

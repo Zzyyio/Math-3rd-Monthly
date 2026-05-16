@@ -37,21 +37,21 @@ ax = fig1.add_subplot(111, projection='3d')
 
 # rating vs 平均借阅时间(天)
 axes[0].scatter(df_sorted['rating'], df_sorted['平均借阅时间(天)'], color='skyblue',s=color.dot_size1)
-axes[0].set_xlabel('评分 (rating)')
-axes[0].set_ylabel('平均借阅时间(天)')
-axes[0].set_title('每本书评分 vs 平均借阅时间')
+axes[0].set_xlabel('Rating')
+axes[0].set_ylabel('Average Borrowing Duration')
+axes[0].set_title('Rating vs. Average Borrowing Duration')
 
 # rating vs 总借入和续借量
-axes[1].scatter(df_sorted['rating'], df_sorted['总借入和续借量'], color='salmon',s=color.dot_size1)
-axes[1].set_xlabel('评分 (rating)')
-axes[1].set_ylabel('每本书的总借入和续借量次数')
-axes[1].set_title('每本书评分 vs 每本书的总借入和续借量次数')
+axes[1].scatter(df_sorted['rating'], df_sorted['总借入和续借量'], color='salmon',s=color.dot_size1,alpha=0.5)
+axes[1].set_xlabel('Rating')
+axes[1].set_ylabel('Total Borrowing/Renewal Counts')
+axes[1].set_title('Rating vs. Total Borrowing Counts')
 
 
 axes[2].scatter(df_sorted['rating'], df_sorted['总借阅时长'], color='salmon',s=color.dot_size1)
-axes[2].set_xlabel('评分 (rating)')
-axes[2].set_ylabel('每本书的总借入时间')
-axes[2].set_title('每本书评分 vs 每本书的总借入时间')
+axes[2].set_xlabel('Rating')
+axes[2].set_ylabel('Average Total Borrowing Duration')
+axes[2].set_title('Rating vs. Average Total Borrowing Duration')
 # ---------- 图表布局优化 ----------
 plt.tight_layout()
 
